@@ -2,6 +2,16 @@ packages:
   - "apps/*"
   - "packages/*"
 
+# Expo / React Native native builds (EAS `gradlew`, `expo prebuild`) run Gradle
+# scripts that resolve `react-native` and Expo autolinking via `require.resolve`
+# from a flat node_modules. pnpm's default isolated (symlinked) store breaks that
+# and fails with "Error resolving plugin [id: 'com.facebook.react.settings'] >
+# Included build '.../android/null' does not exist". A hoisted linker gives a
+# flat, npm/yarn-style node_modules so the native monorepo build resolves.
+# (pnpm 11 reads this here, not from .npmrc.)
+nodeLinker: hoisted
+shamefullyHoist: true
+
 # Pin the Metro family + the RN metro-config to the versions Expo SDK 51 / RN
 # 0.74 expect. Without this, react-native-reanimated@4 pulled in
 # @react-native/metro-config@0.87 + a second Metro, and Expo's metro-config
@@ -23,8 +33,11 @@ overrides:
   "@react-native/js-polyfills": "0.74.87"
 
 allowBuilds:
+  '@prisma/client': set this to true or false
+  '@prisma/engines': set this to true or false
   esbuild: set this to true or false
   msgpackr-extract: set this to true or false
+  prisma: set this to true or false
 
 onlyBuiltDependencies:
   - esbuild

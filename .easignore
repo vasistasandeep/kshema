@@ -1,0 +1,33 @@
+# What EAS Build should NOT upload in the project tarball.
+#
+# EAS shallow-clones the whole monorepo. On Windows it fails to recreate the
+# symlinks that other apps' build caches (e.g. apps/admin/.next) contain, and
+# uploading those caches is wasteful anyway. The mobile build only needs
+# apps/mobile plus the shared packages/*, and EAS reinstalls dependencies on the
+# build server, so node_modules and every build/cache artifact are excluded.
+
+# Dependencies (reinstalled on the build server)
+node_modules/
+
+# Build caches / outputs that trip the Windows symlink packaging bug
+**/.next/
+**/.turbo/
+**/.expo/
+**/dist/
+**/build/
+**/*.tsbuildinfo
+.turbo/
+
+# Sibling apps the mobile build does not need
+apps/admin/
+apps/api/
+apps/web/
+apps/worker/
+
+# Logs, env, local artifacts
+*.log
+.env
+.env.*
+!.env.example
+dist-verify*/
+coverage/

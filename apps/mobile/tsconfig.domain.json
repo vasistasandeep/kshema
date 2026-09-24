@@ -1,0 +1,20 @@
+{
+  "//": "Framework-agnostic domain layer typecheck. This config covers the pure TypeScript identity/crypto/store logic that has no React Native dependency, so it compiles and is verified in CI (Node/Turborepo) without the Expo native toolchain. The React Native UI (app/**, src/components/**, src/ui/**) is typechecked separately via `typecheck:app` using expo/tsconfig.base, which requires the Expo SDK to be installed.",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/domain/**/*.ts",
+    "src/stores/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.tsx",
+    "src/stores/hooks.ts"
+  ]
+}

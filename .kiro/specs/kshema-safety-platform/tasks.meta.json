@@ -1,0 +1,1637 @@
+{
+  "pbtResults": {
+    "5.3 Write property test: bulk-sync reconciliation is idempotent": {
+      "status": "passed",
+      "lastRunTimestamp": 1790148173569
+    },
+    "10.5 Write property test: Shadow SOS handoff supersedes timed advancement": {
+      "status": "passed",
+      "lastRunTimestamp": 1790150531201
+    },
+    "13.8 Write property test: acoustic distress gating": {
+      "status": "passed",
+      "lastRunTimestamp": 1790153869109
+    },
+    "16.4 Write property test: co-living shared-signal attribution requires individual confirmation": {
+      "status": "passed",
+      "lastRunTimestamp": 1790153906296
+    },
+    "16.5 Write property test: co-living partner confirmation resolves before external dispatch": {
+      "status": "passed",
+      "lastRunTimestamp": 1790153921985
+    },
+    "13.2 Write property test: hyperlocal dispatch message completeness": {
+      "status": "passed",
+      "lastRunTimestamp": 1790153956670
+    },
+    "19.2 Write property test: admin RBAC and phone masking": {
+      "status": "passed",
+      "lastRunTimestamp": 1790157887553
+    },
+    "13.6 Write property test: emergency medical dossier access gating": {
+      "status": "passed",
+      "lastRunTimestamp": 1790157972262
+    },
+    "13.5 Write property test: responder payload completeness and exclusion": {
+      "status": "passed",
+      "lastRunTimestamp": 1790157974860
+    },
+    "13.4 Write property test: emergency access token validity and invalidation": {
+      "status": "passed",
+      "lastRunTimestamp": 1790157982816
+    },
+    "5.4 Write property test: clock-skew heartbeats are excluded from the rhythm baseline": {
+      "status": "passed",
+      "lastRunTimestamp": 1790167055152
+    }
+  },
+  "executionHistory": {
+    "1.1 Initialize Turborepo + pnpm workspace and root tooling": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109945507
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109984695
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790110778686
+      }
+    ],
+    "1.2 Create `packages/config` (ESLint/Prettier/TS presets)": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109945758
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790110784990
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790111247171
+      }
+    ],
+    "1.3 Create `packages/database` Prisma schema, client, migrations, and seed": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109945975
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790110786415
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790111249911
+      }
+    ],
+    "1.4 Create `packages/types` shared DTOs and Zod schemas": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109946110
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790139469845
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140046553
+      }
+    ],
+    "1.5 Create `packages/ui` brand design tokens": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109946296
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790110788619
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790111248413
+      }
+    ],
+    "2.1 Implement `packages/encryption` envelope crypto primitives": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109946417
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790139471864
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140047697
+      }
+    ],
+    "2.2 Write property test: black-box round-trip reproduces snapshots": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109946564
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140054903
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140558007
+      }
+    ],
+    "2.3 Write property test: tampered payload fails integrity verification": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109946693
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140056054
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140559687
+      }
+    ],
+    "3.1 Bootstrap the Fastify app skeleton": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109946847
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140057510
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140560628
+      }
+    ],
+    "3.2 Implement OTP auth and identity routes": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109947011
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140567802
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141156668
+      }
+    ],
+    "3.3 Write unit tests for OTP and private-key-absence contract": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109947223
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141167905
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141442126
+      }
+    ],
+    "4.1 Implement circle creation, invitation, and join routes": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109947387
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141168846
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141182066
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141461623
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142032840
+      }
+    ],
+    "4.2 Implement member permission management route": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109947575
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142301094
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146698053
+      }
+    ],
+    "4.3 Write unit tests for circle lifecycle and invitation validation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109947744
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142301796
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146699445
+      }
+    ],
+    "5.1 Implement heartbeat and ghost-signal ingestion routes": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109947888
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141170076
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141182876
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142033088
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142289831
+      }
+    ],
+    "5.2 Implement bulk-sync with idempotent dedup and clock-skew guard": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109948088
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146709906
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147163166
+      }
+    ],
+    "5.3 Write property test: bulk-sync reconciliation is idempotent": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109948245
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147617561
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148300315
+      }
+    ],
+    "5.4 Write property test: clock-skew heartbeats are excluded from the rhythm baseline": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109948389
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147619032
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148294705
+      }
+    ],
+    "6.1 Implement blackbox-sync storage route (server-blind)": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109948567
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147164263
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147606956
+      }
+    ],
+    "6.2 Implement incident black-box fetch with authorization gating": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109948726
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147622815
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148299151
+      }
+    ],
+    "6.3 Write property test: black-box access authorization": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109948961
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148310562
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150224591
+      }
+    ],
+    "7.1 Implement incident resolve, trigger-sos, and sanctuary/dossier routes": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109949135
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148314795
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150225846
+      }
+    ],
+    "7.2 Implement WhatsApp inbound + delivery-status webhook": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109949305
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150243021
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150728369
+      }
+    ],
+    "8.1 Bootstrap the BullMQ worker with queues and job registry": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109949483
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140568825
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141157995
+      }
+    ],
+    "8.2 Implement the adaptive Bayesian rhythm engine": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109949668
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141171334
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141442689
+      }
+    ],
+    "8.3 Write property test: grace-deadline formula with offsets": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109949856
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142303626
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146696671
+      }
+    ],
+    "8.4 Write property test: rhythm estimator over partial samples": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109950021
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142305102
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146695717
+      }
+    ],
+    "9.1 Implement routine-confirmation and persona-mode evaluators": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109950233
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790142306148
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146700943
+      }
+    ],
+    "9.2 Write property test: confirming signal prevents escalation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109950686
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147620637
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148296898
+      }
+    ],
+    "10.1 Implement the escalation FSM with delayed jobs": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109951183
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790147621756
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148298761
+      }
+    ],
+    "10.2 Write property test: escalation advances strictly in order": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109951678
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148312008
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150228295
+      }
+    ],
+    "10.3 Implement auto-resolution and Shadow_SOS handoff in the resolution worker": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109952182
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148313778
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150229742
+      }
+    ],
+    "10.4 Write property test: auto-resolution is idempotent and halts escalation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109952527
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150238648
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150731322
+      }
+    ],
+    "10.5 Write property test: Shadow SOS handoff supersedes timed advancement": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109953117
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150240107
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150732346
+      }
+    ],
+    "11. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109953244
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150757266
+      }
+    ],
+    "12.1 Implement the CarrierAdapter interface and MockCarrierAdapter": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109953379
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150241905
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150729845
+      }
+    ],
+    "12.2 Implement the dispatch worker with retry/failover and AMD handshake": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109953512
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150774695
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151687550
+      }
+    ],
+    "12.3 Write property test: AMD & DTMF acknowledgment": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109953633
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151701950
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152322848
+      }
+    ],
+    "12.4 Write integration tests for carrier dispatch (mock carrier)": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109953769
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151703369
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152324135
+      }
+    ],
+    "13.1 Implement hyperlocal dispatch and emergency access token generation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109953906
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152939722
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153762429
+      }
+    ],
+    "13.2 Write property test: hyperlocal dispatch message completeness": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109954028
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153778135
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156158563
+      }
+    ],
+    "13.3 Implement emergency responder API routes with token gating and dossier release": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109954227
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790156680927
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790157697166
+      }
+    ],
+    "13.4 Write property test: emergency access token validity and invalidation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109954378
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790157711358
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158421304
+      }
+    ],
+    "13.5 Write property test: responder payload completeness and exclusion": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109954595
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790157712770
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158423833
+      }
+    ],
+    "13.6 Write property test: emergency medical dossier access gating": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109955177
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790157714532
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158424161
+      }
+    ],
+    "13.7 Implement acoustic-distress incident raise in the worker": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109955535
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152350087
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152925019
+      }
+    ],
+    "13.8 Write property test: acoustic distress gating": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109955726
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153783796
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156159412
+      }
+    ],
+    "14.1 Implement Vitality Pulse emission and streak increment": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109955909
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150774046
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151686162
+      }
+    ],
+    "14.2 Write property test: Vitality Pulse field completeness": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109956077
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151704784
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152325603
+      }
+    ],
+    "14.3 Write property test: vitality streak never triggers escalation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109956370
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151706412
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152327014
+      }
+    ],
+    "14.4 Implement Sparsh, connection rhythm, voice-note, and Panchanga routes": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109956643
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152345913
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152920670
+      }
+    ],
+    "15.1 Implement subscription checkout, webhooks, and tier transitions": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109957509
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150771967
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151688753
+      }
+    ],
+    "15.2 Implement Shield_Paused suspension gate in the worker": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109957742
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152351541
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152923937
+      }
+    ],
+    "15.3 Write property test: subscription tier transitions": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109957932
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152347277
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152919182
+      }
+    ],
+    "16.1 Implement the Sanctuary Mode suspension gate and auto-resume": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109958128
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150770574
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151682950
+      }
+    ],
+    "16.2 Write property test: Sanctuary Mode suppression, auto-resume, and streak preservation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109958310
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151707722
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152329180
+      }
+    ],
+    "16.3 Implement co-living shared-signal attribution and partner check-in": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109958513
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152938242
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153763957
+      }
+    ],
+    "16.4 Write property test: co-living shared-signal attribution requires individual confirmation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109958692
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153779531
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156161068
+      }
+    ],
+    "16.5 Write property test: co-living partner confirmation resolves before external dispatch": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109958900
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153780905
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156162285
+      }
+    ],
+    "17.1 Implement Simulation_Mode time compression and offline grace": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109962059
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150769242
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790151684745
+      }
+    ],
+    "17.2 Write property test: offline grace withholds heartbeat-only escalation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109964345
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152348832
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152922535
+      }
+    ],
+    "17.3 Implement the Bedtime Battery Guardian worker backstop": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109966379
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152936797
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153761472
+      }
+    ],
+    "17.4 Write property test: bedtime battery thresholds": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109966856
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790153782289
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156163389
+      }
+    ],
+    "18. Checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109967149
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790166664615
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790167179739
+      }
+    ],
+    "19.1 Implement admin routes with MFA/RBAC guard and audit ledger": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109967421
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790156682034
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790157698372
+      }
+    ],
+    "19.2 Write property test: admin RBAC and phone masking": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109968572
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790157715682
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158426098
+      }
+    ],
+    "20.1 Implement web OTP + WebAuthn authentication routes": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109968834
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790157716920
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158427025
+      }
+    ],
+    "20.2 Implement web dashboard SSE stream, vitality, config, and billing routes": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109969055
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790159626883
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161853812
+      }
+    ],
+    "21.1 Implement the mobile Observer dashboard route": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109969239
+      },
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156175860
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790175951519
+      }
+    ],
+    "22.1 Scaffold the Expo mobile app shell": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109969424
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158441271
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790159620067
+      }
+    ],
+    "22.2 Implement the background telemetry, ghost-signal, and offline agents": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109969672
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790159628278
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161850739
+      }
+    ],
+    "22.3 Implement the Flight Recorder, acoustic classifier, Shadow SOS, and bedtime evaluator": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109969883
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790159629820
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161852638
+      }
+    ],
+    "23.1 Implement Observer and Anchor UI surfaces": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109970094
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161864016
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790163388684
+      }
+    ],
+    "23.2 Implement multi-language i18n catalogs": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109970292
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161864633
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790163387029
+      }
+    ],
+    "24.1 Implement the public brand & trust portal (SSG)": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109970500
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161866548
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790163389961
+      }
+    ],
+    "24.2 Implement the Observer web portal, Web_Crypto_Vault, and Ambient Desk Mode": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109970801
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161867786
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790163391366
+      }
+    ],
+    "24.3 Implement the ephemeral first-responder portal (edge SSR)": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109971222
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161868723
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790163392724
+      }
+    ],
+    "24.4 Implement the admin console front end": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109971609
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790163400227
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790164464827
+      }
+    ],
+    "25.1 Complete the banned-term ESLint rule and enforce it repo-wide": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109971976
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790164479396
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790165776586
+      }
+    ],
+    "25.2 Write property test: brand lexicon excludes banned terms": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109972196
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790165783652
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790166207938
+      }
+    ],
+    "25.3 Write the data-safety disclosure consistency test": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109972403
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790165785062
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790166208891
+      }
+    ],
+    "25.4 Write web application integration tests": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109972652
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790165786131
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790166647526
+      }
+    ],
+    "26. Final checkpoint - Ensure all tests pass": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790109972860
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790167188070
+      },
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790175896647
+      }
+    ],
+    "1. Monorepo scaffolding, infrastructure, and shared package skeletons": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140046791
+      }
+    ],
+    "2. Zero-knowledge encryption package": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790140559872
+      }
+    ],
+    "3. Fastify API core: bootstrap, auth, and identity": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790141442396
+      }
+    ],
+    "8. Sentinel worker foundation and adaptive rhythm engine": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146696840
+      }
+    ],
+    "4. Circles, roles, and permissions": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790146699604
+      }
+    ],
+    "9. Routine confirmation, persona evaluators, and ghost-signal handling": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148297149
+      }
+    ],
+    "5. Telemetry, ghost signals, and offline reconciliation": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790148300631
+      }
+    ],
+    "6. Black-box sync and incident access API": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150225003
+      }
+    ],
+    "7. Incident lifecycle API and WhatsApp webhooks": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150728757
+      }
+    ],
+    "10. Four-stage escalation state machine and auto-resolution": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790150732692
+      }
+    ],
+    "12. Carrier abstraction, telephony dispatch, and AMD/DTMF handshake": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152324369
+      }
+    ],
+    "14. Vitality Pulse, family engagement, and Sparsh/Panchanga API": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152920810
+      }
+    ],
+    "15. Subscription lifecycle, tier gating, and webhooks": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790152924126
+      }
+    ],
+    "16. Sanctuary Mode and co-living household worker logic": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156162580
+      }
+    ],
+    "17. Simulation mode, offline grace, and bedtime battery guardian (worker)": [
+      {
+        "executionId": "c12d3b05-d7d6-4caa-a14c-e535b3e8ab60",
+        "chatSessionId": "sess_5c2859f4-0765-4e5c-8846-1cfe27cdca78",
+        "timestamp": 1790156163749
+      }
+    ],
+    "13. Hyperlocal dispatch, emergency access token, medical dossier, and acoustic gating": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158424425
+      }
+    ],
+    "19. Admin console API and RBAC": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790158426359
+      }
+    ],
+    "22. Mobile app foundation and background/ambient agents": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161852903
+      }
+    ],
+    "20. Web API surface: web auth, WebAuthn, SSE, and billing": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790161854079
+      }
+    ],
+    "23. Mobile UI: Observer, Anchor, vitality, and i18n": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790163388897
+      }
+    ],
+    "24. Web and admin front-end applications": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790164465133
+      }
+    ],
+    "25. Cross-cutting quality gates and final wiring": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790166648769
+      }
+    ],
+    "21. Observer dashboard API": [
+      {
+        "executionId": "2dfe6bc0-001b-4945-bcf7-d5b651dc4128",
+        "chatSessionId": "sess_793471bd-538e-4d05-8469-6f100bcb259f",
+        "timestamp": 1790175951645
+      }
+    ]
+  }
+}

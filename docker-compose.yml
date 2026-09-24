@@ -1,0 +1,68 @@
+# Local development infrastructure for the Kshema Ambient Safety Platform.
+# Provides PostgreSQL 16 (primary datastore), Redis 7 (BullMQ queues),
+# and MinIO (S3-compatible object store for encrypted Flight Recorder payloads).
+#
+# Usage:
+#   pnpm infra:up      # docker compose up -d
+#   pnpm infra:down    # docker compose down
+#
+# Privacy note (R19.1, R27.5): this stack stores only encrypted black-box
+# payloads and non-location telemetry — no continuous GPS traces are persisted.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: kshema-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-kshema}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kshema_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-kshema}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - kshema_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kshema} -d ${POSTGRES_DB:-kshema}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: kshema-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - kshema_redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    container_name: kshema-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-kshema}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-kshema_dev_password}
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - kshema_miniodata:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  kshema_pgdata:
+  kshema_redisdata:
+  kshema_miniodata:

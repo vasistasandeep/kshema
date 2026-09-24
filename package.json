@@ -1,0 +1,37 @@
+{
+  "name": "kshema",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Kshema Ambient Safety Platform - Turborepo + pnpm monorepo",
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "setup": "pnpm infra:up && pnpm --filter @kshema/database db:generate && pnpm --filter @kshema/database db:migrate:deploy && pnpm --filter @kshema/database db:seed",
+    "db:migrate": "pnpm --filter @kshema/database db:migrate:deploy",
+    "db:seed": "pnpm --filter @kshema/database db:seed",
+    "db:studio": "pnpm --filter @kshema/database db:studio",
+    "dev:api": "pnpm --filter @kshema/api dev",
+    "dev:worker": "pnpm --filter @kshema/worker dev",
+    "dev:web": "pnpm --filter @kshema/web dev",
+    "dev:admin": "pnpm --filter @kshema/admin dev",
+    "dev": "turbo run dev --filter=@kshema/api --filter=@kshema/worker --filter=@kshema/web --filter=@kshema/admin",
+    "dev:all": "turbo run dev --filter=@kshema/api --filter=@kshema/worker --filter=@kshema/web --filter=@kshema/admin",
+    "dev:mobile": "pnpm --filter @kshema/mobile start"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "turbo": "^2.1.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@kshema/worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "BullMQ Sentinel worker (rhythm eval, escalation FSM, telephony dispatch, resolution, vitality)",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"@kshema/worker lint placeholder\"",
+    "test": "vitest run",
+    "dev": "tsx watch --env-file-if-exists=../../.env src/server.ts",
+    "start": "node --env-file-if-exists=../../.env dist/server.js",
+    "clean": "rimraf dist .turbo *.tsbuildinfo || true"
+  },
+  "dependencies": {
+    "@kshema/types": "workspace:*",
+    "@kshema/database": "workspace:*",
+    "@kshema/encryption": "workspace:*",
+    "bullmq": "5.12.0",
+    "ioredis": "5.4.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "fast-check": "3.19.0",
+    "rimraf": "^5.0.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

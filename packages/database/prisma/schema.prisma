@@ -1,0 +1,485 @@
+// Kshema Ambient Safety Platform — Prisma schema (PostgreSQL 16).
+//
+// Privacy posture (R8.6, R19.1, R19.3, R5.5):
+//   * The server is cryptographically blind to Flight Recorder payloads.
+//     `EncryptedBlackBox` exposes no plaintext columns and the API layer
+//     holds no private key — it cannot decrypt. Private keys are NEVER stored.
+//   * `TelemetryLog` has no continuous-location / GPS column by construction.
+//
+// Task 1.3 — authored from the design "Data Models" section.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Enums ----------
+enum CircleRole {
+  ANCHOR
+  OBSERVER
+  MUTUAL
+}
+
+enum SentinelMode {
+  ELDERLY_CARE
+  SOLO_LIVING
+  ACTIVE_SESSION
+  JOURNEY_WATCH
+  POST_OP_RECOVERY
+}
+
+enum IncidentStage {
+  STAGE_1_CONVERSATIONAL_WHATSAPP
+  STAGE_2_GENTLE_DEVICE_CHIME
+  STAGE_3_OBSERVER_SILENT_ALERT
+  STAGE_4_HYPERLOCAL_DISPATCH
+}
+
+enum IncidentStatus {
+  OPEN
+  RESOLVED
+  HANDED_OFF_SOS
+}
+
+enum ResolutionSource {
+  SCREEN_UNLOCK
+  STEP_DELTA
+  CHARGER_UNPLUG
+  GHOST_SIGNAL
+  WHATSAPP_RESPONSE
+  ANCHOR_DISMISSAL
+  OBSERVER_OVERRIDE
+  SHADOW_SOS_HANDOFF
+  CO_LIVING_PARTNER_CONFIRMED
+  RESPONDER_CONFIRMED
+}
+
+enum SubscriptionTier {
+  TRIAL
+  PRO
+  SHIELD_PAUSED
+}
+
+enum BillingInterval {
+  MONTHLY
+  ANNUAL
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  SUPPORT_AGENT
+  BILLING_OPS
+}
+
+enum AuditAction {
+  VIEW
+  QUERY
+  MUTATION
+  EXPORT
+  SECURITY_VIOLATION
+}
+
+enum SparshType {
+  MORNING_CHAI
+  PRANAM_BLESSING
+  MORNING_SUN
+  MARIGOLD_FLOWER
+  HEART_BLESSING
+}
+
+enum GhostSignalType {
+  MEDIA_DEVICE_WAKE
+  HOME_WIFI_REASSOCIATION
+}
+
+enum DossierAccessState {
+  LOCKED
+  RELEASED_EMERGENCY
+  EXPIRED
+}
+
+enum LoginChannel {
+  MOBILE
+  WEB
+}
+
+enum BatteryWarningKind {
+  BEDTIME_LOW
+  PRE_DAWN_BATTERY_EXHAUSTION_WARNING
+}
+
+// ---------- Core identity & circle ----------
+model User {
+  id            String   @id @default(cuid())
+  phone         String   @unique
+  publicKeyPem  String
+  preferredName String?
+  timezone      String   @default("Asia/Kolkata")
+  pushTokens    String[]
+
+  disclaimerAcceptedAt DateTime?
+  disclaimerVersion    String?
+  createdAt            DateTime  @default(now())
+
+  memberships     CircleMember[]
+  telemetry       TelemetryLog[]
+  ghostSignals    GhostSignalLog[]
+  passkeys        WebAuthnCredential[] // R28
+  medicalDossier  EmergencyMedicalDossier? // R33
+  sanctuary       SanctuarySchedule[] // R34
+  batteryWarnings BatteryWarningLog[] // R32
+}
+
+model Circle {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  members      CircleMember[]
+  policy       SentinelPolicy?
+  subscription Subscription?
+  streak       VitalityStreak?
+  incidents    SafetyIncident[]
+}
+
+model CircleMember {
+  id                   String     @id @default(cuid())
+  circleId             String
+  userId               String
+  role                 CircleRole
+  canTriggerIVR        Boolean    @default(false)
+  canAccessBlackBox    Boolean    @default(false)
+  observerPublicKeyPem String? // recorded for black-box key wrapping (R2.8)
+
+  circle Circle @relation(fields: [circleId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([circleId, userId])
+}
+
+// ---------- Sentinel policy & rhythm ----------
+model SentinelPolicy {
+  id         String         @id @default(cuid())
+  circleId   String         @unique
+  anchorId   String
+  modes      SentinelMode[] @default([ELDERLY_CARE]) // default persona (R3.2)
+  wakeConfig Json // per-mode params: transit deadline, recovery threshold, active hours
+
+  circle Circle                 @relation(fields: [circleId], references: [id])
+  rhythm AdaptiveRhythmProfile?
+}
+
+model AdaptiveRhythmProfile {
+  id               String   @id @default(cuid())
+  policyId         String   @unique
+  wakeSamples      Int[] // rolling 14-day minute-of-day samples (R4.1)
+  meanWakeMinute   Float
+  stdDevWakeMinute Float
+  avgStep30d       Float
+  weekendOffsetMin Int      @default(45) // R4.4
+  fatigueOffsetMin Int      @default(30) // R4.5
+  updatedAt        DateTime @updatedAt
+
+  policy SentinelPolicy @relation(fields: [policyId], references: [id])
+}
+
+// ---------- Telemetry & signals ----------
+// No continuous-location / GPS column by construction (R5.5, R19.1).
+model TelemetryLog {
+  id           String   @id @default(cuid())
+  userId       String
+  screenUnlock Boolean  @default(false)
+  stepDelta    Int      @default(0)
+  batteryLevel Int?
+  chargerState String? // PLUGGED / UNPLUGGED
+  capturedAt   DateTime
+  receivedAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, capturedAt])
+}
+
+model GhostSignalLog {
+  id         String          @id @default(cuid())
+  userId     String
+  signalType GhostSignalType
+  source     String?
+  detectedAt DateTime
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, detectedAt])
+}
+
+// ---------- Zero-knowledge black box ----------
+// Server-blind: ciphertext only, no plaintext columns, no private key (R8.6, R19.3).
+model EncryptedBlackBox {
+  id                 String                 @id @default(cuid())
+  circleId           String
+  anchorId           String
+  encryptedPayload   Bytes // AES-256-GCM ciphertext
+  iv                 Bytes // 96-bit nonce
+  authTag            Bytes // GCM tag
+  recipientKeys      BlackBoxRecipientKey[] // fan-out-wrapped 256-bit AES key, one row per authorized Observer
+  capturedRangeStart DateTime
+  capturedRangeEnd   DateTime
+  released           Boolean                @default(false) // gate per R8.7/8.8
+  createdAt          DateTime               @default(now())
+
+  @@index([anchorId, createdAt])
+}
+
+// One RSA-OAEP-wrapped copy of the payload symmetric key per authorized Observer,
+// so each Observer can independently unwrap (fan-out wrap; see Zero-Knowledge Cryptography Design).
+model BlackBoxRecipientKey {
+  id         String @id @default(cuid())
+  boxId      String
+  observerId String
+  wrappedKey Bytes // RSA-OAEP-wrapped 256-bit AES key for this observer
+
+  box EncryptedBlackBox @relation(fields: [boxId], references: [id], onDelete: Cascade)
+
+  @@unique([boxId, observerId])
+}
+
+// ---------- Incidents ----------
+model SafetyIncident {
+  id                     String            @id @default(cuid())
+  circleId               String
+  anchorId               String
+  stage                  IncidentStage
+  status                 IncidentStatus    @default(OPEN)
+  simulated              Boolean           @default(false) // R25.4
+  batteryDepletionLikely Boolean           @default(false) // R32.4 "Likely Battery Depletion" flag on STAGE_1
+  auditTrail             Json // ordered array of {stage, at, cause}; also holds DTMF/AMD + responder-portal visit events (R31.4, R29.12)
+  resolutionSource       ResolutionSource?
+  openedAt               DateTime          @default(now())
+  resolvedAt             DateTime?
+
+  circle Circle @relation(fields: [circleId], references: [id])
+
+  @@index([circleId, status])
+}
+
+model HyperlocalContactProfile {
+  id                   String  @id @default(cuid())
+  anchorId             String  @unique
+  building             String?
+  flat                 String?
+  society              String?
+  doorAccess           String?
+  primaryObserverPhone String?
+  gatePhone            String?
+  neighborPhone        String?
+}
+
+// ---------- Vitality & family engine ----------
+model VitalityPulseLog {
+  id          String   @id @default(cuid())
+  circleId    String
+  anchorId    String
+  confirmedAt DateTime
+  context     Json // steps, weather
+  createdAt   DateTime @default(now())
+}
+
+model VitalityStreak {
+  id               String    @id @default(cuid())
+  circleId         String    @unique
+  count            Int       @default(0)
+  lastConfirmedDay String? // yyyy-mm-dd in anchor tz
+  freezeUntil      DateTime? // Streak_Freeze (R22.5)
+
+  circle Circle @relation(fields: [circleId], references: [id])
+}
+
+model SparshInteraction {
+  id         String     @id @default(cuid())
+  circleId   String
+  fromUserId String
+  toUserId   String
+  type       SparshType
+  createdAt  DateTime   @default(now())
+
+  @@index([circleId, createdAt])
+}
+
+model PanchangaAlmanac {
+  id          String   @id @default(cuid())
+  date        String // yyyy-mm-dd
+  locationKey String // coarse geo bucket
+  sunrise     String
+  sunset      String
+  tithi       String
+  nakshatra   String
+  masa        String
+  festivals   String[]
+  proverbKey  String
+
+  @@unique([date, locationKey])
+}
+
+// ---------- Device & subscription ----------
+model DeviceConfig {
+  id                      String    @id @default(cuid())
+  userId                  String
+  platform                String // ANDROID / IOS
+  oem                     String? // Xiaomi, Samsung, OnePlus, Vivo, Apple
+  batteryExempt           Boolean   @default(false)
+  foregroundServiceActive Boolean   @default(false)
+  lastTelemetrySyncAt     DateTime?
+
+  @@index([userId])
+}
+
+model Subscription {
+  id          String           @id @default(cuid())
+  circleId    String           @unique
+  tier        SubscriptionTier @default(TRIAL)
+  interval    BillingInterval?
+  trialEndsAt DateTime
+  proSince    DateTime?
+  externalRef String? // StoreKit / Play / UPI token
+
+  circle Circle @relation(fields: [circleId], references: [id])
+}
+
+// ---------- Admin ----------
+model AdminUser {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  role        AdminRole
+  mfaEnrolled Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  auditLogs AdminAuditLog[]
+}
+
+model AdminAuditLog {
+  id            String      @id @default(cuid())
+  adminUserId   String
+  action        AuditAction
+  sourceIp      String
+  targetEntity  String
+  justification String?
+  simulated     Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+
+  admin AdminUser @relation(fields: [adminUserId], references: [id])
+
+  @@index([adminUserId, createdAt])
+}
+
+model CarrierGatewayMetric {
+  id                 String   @id @default(cuid())
+  gateway            String // WHATSAPP / TWILIO / EXOTEL
+  deliveryLatencyMs  Int?
+  templateRejections Int      @default(0)
+  dltStatus          String?
+  ivrSuccess         Boolean?
+  errorRate          Float?
+  windowStart        DateTime
+  createdAt          DateTime @default(now())
+
+  @@index([gateway, windowStart])
+}
+
+// ---------- Web portal: WebAuthn passkeys (R28) ----------
+model WebAuthnCredential {
+  id           String   @id @default(cuid())
+  userId       String
+  credentialId String   @unique // base64url credential id from the authenticator
+  publicKey    Bytes // COSE-encoded public key
+  counter      Int      @default(0) // signature counter; must be non-decreasing (clone detection)
+  transports   String[] // e.g. internal, hybrid, usb
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+// ---------- Ephemeral first-responder access (R29) ----------
+model EmergencyAccessToken {
+  id            String    @id @default(cuid())
+  incidentId    String    @unique // single-incident binding (R29.1)
+  tokenHash     String    @unique // hash of the signed token; raw token is never stored
+  scope         String    @default("EMERGENCY_TRIAGE_READ") // read-only triage scope (R29.2)
+  expiresAt     DateTime // <= issuedAt + 60m (R29.2)
+  invalidatedAt DateTime? // set on incident resolution (R29.10)
+  createdAt     DateTime  @default(now())
+
+  @@index([incidentId, expiresAt])
+}
+
+// ---------- Encrypted Emergency Medical Dossier / ICE (R33) ----------
+model EmergencyMedicalDossier {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  // Encrypted-at-rest payload; server holds only ciphertext (R33.2).
+  encryptedPayload      Bytes // AES-256-GCM ciphertext of the ICE JSON
+  iv                    Bytes
+  authTag               Bytes
+  encryptedEmergencyKey Bytes // symKey wrapped to the circle emergency key (see crypto)
+
+  // Optional masked/non-sensitive metadata for integrity checks only (no plaintext clinical data):
+  bloodGroup            String? // OPTIONAL: only if the deployment opts into plaintext ICE; default null
+  allergies             String[] @default([]) // (see design note: prefer encryptedPayload-only)
+  chronicConditions     String[] @default([])
+  criticalMedications   String[] @default([])
+  attendingDoctorName   String?
+  attendingDoctorPhone  String?
+  healthInsurancePolicy String?
+
+  accessState DossierAccessState @default(LOCKED) // R33.2/R33.3/R33.4 lifecycle
+  updatedAt   DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+// ---------- Sanctuary / travel / medical-procedure mode (R34) ----------
+model SanctuarySchedule {
+  id        String   @id @default(cuid())
+  userId    String // the Anchor whose evaluation is suspended
+  startsAt  DateTime
+  resumesAt DateTime // <= startsAt + 14 days (R34.1)
+  reason    String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, isActive, resumesAt])
+}
+
+// ---------- Co-living households (R35) ----------
+model HouseholdProfile {
+  id                   String   @id @default(cuid())
+  householdName        String
+  anchorIds            String[] // co-living Anchors sharing this domicile
+  sharedWifiBssids     String[] @default([]) // BSSIDs treated as household activity
+  sharedMediaDeviceIds String[] @default([]) // media devices treated as household activity
+  createdAt            DateTime @default(now())
+
+  @@index([householdName])
+}
+
+// ---------- Bedtime Battery Guardian log (R32) ----------
+model BatteryWarningLog {
+  id           String             @id @default(cuid())
+  userId       String
+  kind         BatteryWarningKind
+  batteryLevel Int
+  chargerState String // PLUGGED / UNPLUGGED
+  loggedAt     DateTime           @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, loggedAt])
+}

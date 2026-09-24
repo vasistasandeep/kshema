@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Kshema">
+  <path d="M512 210c92 51 184 75 256 75v224c0 184-119 286-256 340-137-54-256-156-256-340V285c72 0 164-24 256-75z"
+        fill="#C85A32"/>
+  <circle cx="512" cy="530" r="146" fill="none" stroke="#FDFBF7" stroke-width="46"/>
+  <circle cx="512" cy="530" r="52" fill="#D4A359"/>
+</svg>

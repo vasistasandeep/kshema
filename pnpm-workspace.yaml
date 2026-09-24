@@ -1,0 +1,35 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Pin the Metro family + the RN metro-config to the versions Expo SDK 51 / RN
+# 0.74 expect. Without this, react-native-reanimated@4 pulled in
+# @react-native/metro-config@0.87 + a second Metro, and Expo's metro-config
+# loaded the wrong one, failing with ERR_PACKAGE_PATH_NOT_EXPORTED
+# ('./src/stores/FileStore'). (pnpm 11 reads overrides here, not package.json.)
+overrides:
+  metro: "0.80.12"
+  metro-cache: "0.80.12"
+  metro-cache-key: "0.80.12"
+  metro-config: "0.80.12"
+  metro-core: "0.80.12"
+  metro-resolver: "0.80.12"
+  metro-runtime: "0.80.12"
+  metro-source-map: "0.80.12"
+  metro-transform-worker: "0.80.12"
+  metro-babel-transformer: "0.80.12"
+  "@react-native/metro-config": "0.74.87"
+  "@react-native/metro-babel-transformer": "0.74.87"
+  "@react-native/js-polyfills": "0.74.87"
+
+allowBuilds:
+  esbuild: set this to true or false
+  msgpackr-extract: set this to true or false
+
+onlyBuiltDependencies:
+  - esbuild
+  - prisma
+  - "@prisma/client"
+  - "@prisma/engines"
+
+verifyDepsBeforeRun: false

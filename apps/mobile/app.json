@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Kshema",
+    "slug": "kshema",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "kshema",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FDFBF7",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#FDFBF7"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "in.kshema.app",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Kshema uses device biometrics to protect your private recovery key.",
+        "UIBackgroundModes": ["fetch", "processing"]
+      }
+    },
+    "android": {
+      "package": "in.kshema.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FDFBF7"
+      },
+      "permissions": ["ACTIVITY_RECOGNITION", "FOREGROUND_SERVICE"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

@@ -4,6 +4,54 @@ The Kshema Anchor/Observer mobile app — Expo (SDK 51+) + React Native (0.74+),
 NativeWind wired to the shared `@kshema/ui` brand tokens, Zustand stores, and
 Expo Router for role-based surfaces.
 
+## How to run
+
+This app uses a native module (`react-native-quick-crypto`), so it **cannot run
+in Expo Go** — you need a development build (a custom dev client you install
+once) or a full build. Both compile native code. Run all commands from
+`apps/mobile`.
+
+### Option 1 — EAS Build (cloud; no local Android Studio / Xcode)
+
+Expo compiles the native app on their servers and gives you a link/QR to
+install it. Best if you don't have the native toolchains locally.
+
+```bash
+npm install -g eas-cli      # one-time
+eas login                   # your Expo account
+eas build:configure         # links the project (writes the EAS project id)
+
+# Android dev build (works from Windows/macOS/Linux):
+pnpm build:dev:android
+# iOS dev build (needs an Apple Developer account for device builds):
+pnpm build:dev:ios
+```
+
+Install the resulting build on a device/emulator, then start the JS bundler and
+it will connect to that dev client:
+
+```bash
+pnpm start:dev              # expo start --dev-client
+```
+
+### Option 2 — Local build (you have the native toolchain)
+
+```bash
+pnpm prebuild               # generates native android/ (and ios/) projects
+pnpm run:android            # needs Android Studio + SDK + emulator/device
+pnpm run:ios                # needs a Mac with Xcode
+```
+
+`run:android` / `run:ios` compile locally and launch on the emulator/device.
+Android builds work from Windows; iOS builds require macOS + Xcode.
+
+### Notes
+
+- The `development` EAS profile (`eas.json`) builds a dev client as an Android
+  `.apk` and an iOS simulator build, on the `development` channel.
+- After changing native dependencies you must rebuild the dev client; JS-only
+  changes just need `pnpm start:dev` and a reload.
+
 ## Layout
 
 ```

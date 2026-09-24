@@ -26,7 +26,12 @@
     "dev:admin": "pnpm --filter @kshema/admin dev",
     "dev": "turbo run dev --filter=@kshema/api --filter=@kshema/worker --filter=@kshema/web --filter=@kshema/admin",
     "dev:all": "turbo run dev --filter=@kshema/api --filter=@kshema/worker --filter=@kshema/web --filter=@kshema/admin",
-    "dev:mobile": "pnpm --filter @kshema/mobile start"
+    "dev:mobile": "pnpm --filter @kshema/mobile start",
+    "mobile:start:dev": "pnpm --filter @kshema/mobile start:dev",
+    "mobile:build:dev:android": "pnpm --filter @kshema/mobile build:dev:android",
+    "mobile:build:dev:ios": "pnpm --filter @kshema/mobile build:dev:ios",
+    "mobile:build:preview:android": "pnpm --filter @kshema/mobile build:preview:android",
+    "mobile:prebuild": "pnpm --filter @kshema/mobile prebuild"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

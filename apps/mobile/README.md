@@ -45,6 +45,8 @@ pnpm run:ios                # needs a Mac with Xcode
 `run:android` / `run:ios` compile locally and launch on the emulator/device.
 Android builds work from Windows; iOS builds require macOS + Xcode.
 
+For the exact, validated Windows local-build recipe (prerequisites, JDK 17, short-path requirement, SDK/CMake/NDK versions, emulator install/run, and the `react-native-quick-base64` old-arch pin), see [`LOCAL_BUILD.md`](./LOCAL_BUILD.md).
+
 ### Notes
 
 - The `development` EAS profile (`eas.json`) builds a dev client as an Android

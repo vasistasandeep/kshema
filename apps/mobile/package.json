@@ -7,8 +7,8 @@
   "scripts": {
     "start": "expo start",
     "start:dev": "expo start --dev-client",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "prebuild": "expo prebuild",
     "run:android": "expo run:android",
     "run:ios": "expo run:ios",

@@ -1,18 +1,18 @@
-/**
- * Ephemeral First-Responder Portal placeholder (R29).
- *
- * The zero-login, edge-rendered responder triage surface is implemented in the
- * emergency-portal task. This placeholder keeps the `/emergency/[token]` route
- * valid for the build.
- */
-export default function EmergencyPortalPlaceholder(): JSX.Element {
-  return (
-    <main className="mx-auto max-w-md px-6 py-16 text-center">
-      <h1 className="text-2xl font-semibold">Kshema safety check</h1>
-      <p className="mt-4 text-typography/70">
-        This emergency view is preparing. If you reached this page in error, the
-        safety check may have already concluded.
-      </p>
-    </main>
-  );
+import { EmergencyCard } from "@/components/anchor/EmergencyCard";
+import { hyperlocalProfile, anchors } from "@/lib/mock/data";
+
+export default function EmergencyPortal({ params }: { params: { token: string } }) {
+  const valid = params.token && params.token.length > 6 && params.token !== "expired";
+  if (!valid) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-deep-charcoal px-6 text-center text-white">
+        <div>
+          <h1 className="text-2xl font-semibold">This safety check has concluded</h1>
+          <p className="mt-2 text-white/60">The link is no longer active. Thank you for helping.</p>
+        </div>
+      </main>
+    );
+  }
+  const anchor = anchors[1];
+  return <EmergencyCard anchorName={anchor.preferredName} profile={hyperlocalProfile} />;
 }

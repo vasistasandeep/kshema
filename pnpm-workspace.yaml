@@ -1,4 +1,4 @@
-﻿packages:
+packages:
   - "apps/*"
   - "packages/*"
 
@@ -38,6 +38,12 @@ overrides:
   # at runtime ("QuickBase64 could not be found"). Pin to the last old-arch 2.x, which
   # ships android/build.gradle and autolinks under RN 0.74.
   react-native-quick-base64: "2.2.2"
+  # Single React across the monorepo. RN 0.74.5 hard-requires 18.2.0; Next 14.2
+  # peer-accepts ^18.2.0. Without pinning, next pulled its own react@18.3.1 while
+  # react-dom stayed 18.2.0, producing "multiple copies of React" + a null
+  # useReducer crash (500) in apps/web. Pin both to 18.2.0 everywhere.
+  react: "18.2.0"
+  react-dom: "18.2.0"
 
 allowBuilds:
   '@prisma/client': set this to true or false
@@ -45,6 +51,7 @@ allowBuilds:
   esbuild: set this to true or false
   msgpackr-extract: set this to true or false
   prisma: set this to true or false
+  unrs-resolver: set this to true or false
 
 onlyBuiltDependencies:
   - esbuild

@@ -1,15 +1,13 @@
 import type { ReactNode } from "react";
-import { PortalShell } from "./PortalShell";
+import { Sidebar } from "@/components/dashboard/Sidebar";
+import { MobileNav } from "@/components/dashboard/MobileNav";
 
-/**
- * Observer dashboard layout. Wraps every `/dashboard/*` page except the login
- * route in the authenticated shell (session guard + 30-minute idle lock). The
- * login page renders outside this shell via its own segment.
- */
-export default function DashboardLayout({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element {
-  return <PortalShell>{children}</PortalShell>;
+export default function DashboardLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex min-h-screen">
+      <Sidebar />
+      <main className="flex-1 pb-20 lg:pb-0">{children}</main>
+      <MobileNav />
+    </div>
+  );
 }

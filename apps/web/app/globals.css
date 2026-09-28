@@ -3,21 +3,57 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  --sandalwood-cream: #FDFBF7;
+  --terracotta: #C85A32;
+  --deep-charcoal: #1F2421;
+  --muted-sage-green: #3D6B52;
+  --soft-amber: #D9822B;
+  --temple-brass: #D4A359;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-html,
-body {
-  margin: 0;
+* { box-sizing: border-box; }
+
+html, body {
   padding: 0;
-  /* Sandalwood Cream canvas + Deep Charcoal typography (R28.18 palette). */
-  background-color: #fdfbf7;
-  color: #1f2421;
-  font-family:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
+  margin: 0;
+  background: var(--sandalwood-cream);
+  color: var(--deep-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-* {
-  box-sizing: border-box;
+@layer base {
+  body { background-color: #FDFBF7; }
 }
+
+@layer components {
+  .card {
+    @apply rounded-2xl bg-white shadow-card border border-black/5;
+  }
+  .card-pad { @apply p-5 sm:p-6; }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-primary-action text-white hover:brightness-105 active:brightness-95 focus-visible:ring-primary-action/50;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-typography hover:bg-black/5;
+  }
+  .btn-outline {
+    @apply btn border border-black/10 bg-white text-typography hover:bg-black/[0.03];
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium;
+  }
+  .label { @apply text-xs font-medium uppercase tracking-wide text-typography/50; }
+  .input {
+    @apply w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-typography placeholder:text-typography/40 focus:border-primary-action focus:outline-none focus:ring-2 focus:ring-primary-action/20;
+  }
+}
+
+/* Custom scrollbar for a calm feel */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(31,36,33,0.15); border-radius: 999px; }
+::-webkit-scrollbar-track { background: transparent; }

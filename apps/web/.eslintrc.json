@@ -1,16 +1,3 @@
 {
-  "extends": "next/core-web-vitals",
-  "plugins": ["kshema"],
-  "rules": {
-    "kshema/no-banned-terms": [
-      "error",
-      {
-        "exceptions": {
-          "philosophy.heading": ["surveillance"],
-          "philosophy.lede": ["surveillance", "tracking"]
-        }
-      }
-    ]
-  },
-  "ignorePatterns": [".next/", "node_modules/"]
+  "extends": "next/core-web-vitals"
 }

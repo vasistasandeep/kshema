@@ -1,4 +1,4 @@
-packages:
+﻿packages:
   - "apps/*"
   - "packages/*"
 
@@ -31,6 +31,13 @@ overrides:
   "@react-native/metro-config": "0.74.87"
   "@react-native/metro-babel-transformer": "0.74.87"
   "@react-native/js-polyfills": "0.74.87"
+  # @craftzdog/react-native-buffer@6.1.2 depends on react-native-quick-base64@^3,
+  # but 3.x is new-architecture-only (ships codegen specs + CMakeLists, no old-arch
+  # android/build.gradle). This app builds old-arch (RN 0.74, newArchEnabled=false),
+  # so 3.x is skipped by autolinking and the native QuickBase64 TurboModule is absent
+  # at runtime ("QuickBase64 could not be found"). Pin to the last old-arch 2.x, which
+  # ships android/build.gradle and autolinks under RN 0.74.
+  react-native-quick-base64: "2.2.2"
 
 allowBuilds:
   '@prisma/client': set this to true or false

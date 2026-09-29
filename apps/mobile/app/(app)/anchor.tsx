@@ -4,6 +4,7 @@ import {
   AccentCard,
   Body,
   Card,
+  PrimaryButton,
   Screen,
   TapPill,
   Title,
@@ -24,6 +25,7 @@ import {
 } from "../../src/domain/ui-presentation";
 import type { PanchangaCard, SparshType, VitalityPulse } from "@kshema/types";
 import { useSessionStore } from "../../src/stores/hooks";
+import { confirmImWell, connectLiveAsAnchor } from "../../src/live-connect";
 
 /**
  * Anchor sanctuary home (R7, R22, R34).
@@ -46,6 +48,27 @@ import { useSessionStore } from "../../src/stores/hooks";
  */
 export default function AnchorHome() {
   const name = useSessionStore((s) => s.preferredName) ?? "friend";
+
+  const [heartbeatBusy, setHeartbeatBusy] = useState(false);
+  const [heartbeatMsg, setHeartbeatMsg] = useState<string | null>(null);
+
+  async function sendWellHeartbeat() {
+    setHeartbeatBusy(true);
+    setHeartbeatMsg(null);
+    try {
+      await connectLiveAsAnchor();
+      const sent = await confirmImWell();
+      setHeartbeatMsg(
+        sent
+          ? "Sent a gentle 'I'm well' to your Circle."
+          : "Could not reach your Circle just now.",
+      );
+    } catch (e) {
+      setHeartbeatMsg("Could not reach your Circle: " + String((e as Error).message ?? e));
+    } finally {
+      setHeartbeatBusy(false);
+    }
+  }
 
   // Data seams — populated by the vitality/panchanga/movement/sanctuary hooks
   // (tasks 14/21). Held as local state so the surface is complete and
@@ -87,6 +110,16 @@ export default function AnchorHome() {
           <Body>Your Ambient Shield is looking after your daily rhythm.</Body>
         </Card>
       )}
+
+      <Card>
+        <Body>Let your Circle know you are well with one tap.</Body>
+        <PrimaryButton
+          label={heartbeatBusy ? "Sending…" : "I'm well"}
+          onPress={sendWellHeartbeat}
+          disabled={heartbeatBusy}
+        />
+        {heartbeatMsg ? <Body>{heartbeatMsg}</Body> : null}
+      </Card>
 
       <VitalityPulseSection card={pulseCard} />
       <SparshSection onReply={sendReply} />

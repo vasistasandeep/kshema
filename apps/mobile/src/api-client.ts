@@ -71,16 +71,22 @@ export async function fetchDashboard(): Promise<{ anchors: AnchorWellBeing[] }> 
   return req<{ anchors: AnchorWellBeing[] }>("/api/v1/observer/dashboard");
 }
 
-/** Send a passive telemetry heartbeat (confirms life; R5.2). */
-export async function sendHeartbeat(input: { screenUnlock?: boolean; stepDelta?: number; batteryPercent?: number; chargerConnected?: boolean }): Promise<void> {
-  await req("/api/v1/telemetry/heartbeat", {
-    method: "POST",
-    body: JSON.stringify({
-      screenUnlock: input.screenUnlock ?? true,
-      stepDelta: input.stepDelta ?? 0,
-      batteryPercent: input.batteryPercent ?? 80,
-      chargerConnected: input.chargerConnected ?? false,
-      capturedAt: new Date().toISOString(),
-    }),
-  }).catch(() => { /* heartbeat is best-effort */ });
+/** Send a passive telemetry heartbeat as the current Anchor (R5.2). A screen
+ * unlock or a positive step delta is a confirming signal that clears an open
+ * incident (R13.1/R13.2). Returns the ack. */
+export async function sendHeartbeat(input?: { screenUnlock?: boolean; stepDelta?: number; battery?: number; charging?: boolean }): Promise<{ id: string; receivedAt: string } | null> {
+  const nowIso = new Date().toISOString();
+  const body = {
+    deviceId: "mobile-" + (getCurrentUserId() ?? "dev"),
+    screenUnlocks: (input?.screenUnlock ?? true) ? [nowIso] : [],
+    stepDelta: input?.stepDelta ?? 0,
+    battery: input?.battery ?? 82,
+    chargerState: (input?.charging ? "PLUGGED" : "UNPLUGGED") as "PLUGGED" | "UNPLUGGED",
+    capturedAt: nowIso,
+  };
+  try {
+    return await req<{ id: string; receivedAt: string }>("/api/v1/telemetry/heartbeat", { method: "POST", body: JSON.stringify(body) });
+  } catch {
+    return null;
+  }
 }

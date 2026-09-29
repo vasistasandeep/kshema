@@ -1,10 +1,11 @@
 /**
  * Live backend connection bootstrap.
  *
- * Runs the real end-to-end flow against the Fastify API: dev login (mints a
- * session), load the Observer dashboard into the dashboard store, and seed a
- * membership so the role-based tabs render. Used by the welcome screen's
- * "Connect to my Circle" action for a working device demo.
+ * Runs the real end-to-end flow against the Fastify API. Two entry points:
+ *   - connectLiveAsObserver: dev login as the seeded Observer, load the
+ *     Observer dashboard into the store, seed an Observer membership.
+ *   - connectLiveAsAnchor: dev login as the seeded Anchor so a heartbeat from
+ *     this device targets this Anchor own open incident (R13.1/R13.2).
  */
 import type { AnchorWellBeing, CircleMember } from "@kshema/types";
 import { devLogin, fetchDashboard, getCurrentUserId, sendHeartbeat } from "./api-client";
@@ -15,18 +16,12 @@ export interface LiveConnectResult {
   anchors: AnchorWellBeing[];
 }
 
-/**
- * Connect to the live backend as an Observer. Defaults to the seeded demo
- * observer so the dashboard has data immediately; a real onboarding would pass
- * the user's own verified phone + generated public key.
- */
 export async function connectLiveAsObserver(
   phone = "+919000000002",
   preferredName = "Ravi",
 ): Promise<LiveConnectResult> {
   const login = await devLogin(phone, preferredName);
 
-  // Reflect the authenticated session in the store (R1).
   const nowIso = new Date().toISOString();
   useSessionStore.getState().setSession({
     userId: login.userId,
@@ -37,7 +32,6 @@ export async function connectLiveAsObserver(
   useSessionStore.getState().markIdentityCreated();
   useSessionStore.getState().setPreferredName(preferredName);
 
-  // Seed an Observer membership so the (app) tabs mount the Circle surface (R2.6).
   const member: CircleMember = {
     id: "self",
     userId: login.userId,
@@ -49,7 +43,6 @@ export async function connectLiveAsObserver(
     { circleId: "live", circleName: "My Circle", member },
   ]);
 
-  // Load the live dashboard (R15).
   const dash = await fetchDashboard();
   useDashboardStore.getState().setAnchors(dash.anchors);
   useDashboardStore.getState().markRefreshed(nowIso);
@@ -57,15 +50,42 @@ export async function connectLiveAsObserver(
   return { userId: login.userId, anchors: dash.anchors };
 }
 
-/** Refresh the Observer dashboard from the API. */
+export async function connectLiveAsAnchor(
+  phone = "+919000000001",
+  preferredName = "Amma",
+): Promise<string> {
+  const login = await devLogin(phone, preferredName);
+  useSessionStore.getState().setSession({
+    userId: login.userId,
+    accessToken: login.accessToken,
+    refreshToken: login.accessToken,
+    expiresAt: new Date(Date.now() + 3600_000).toISOString(),
+  });
+  useSessionStore.getState().markIdentityCreated();
+  useSessionStore.getState().setPreferredName(preferredName);
+
+  const member: CircleMember = {
+    id: "self",
+    userId: login.userId,
+    role: "ANCHOR",
+    canTriggerIVR: false,
+    canAccessBlackBox: false,
+  } as unknown as CircleMember;
+  useMembershipStore.getState().setMemberships([
+    { circleId: "live", circleName: "My Circle", member },
+  ]);
+
+  return login.userId;
+}
+
 export async function refreshDashboard(): Promise<void> {
   const dash = await fetchDashboard();
   useDashboardStore.getState().setAnchors(dash.anchors);
   useDashboardStore.getState().markRefreshed(new Date().toISOString());
 }
 
-/** Send a confirming heartbeat (as an Anchor would) ? proves telemetry ingest. */
-export async function confirmImWell(): Promise<void> {
-  if (!getCurrentUserId()) return;
-  await sendHeartbeat({ screenUnlock: true, stepDelta: 25, batteryPercent: 82 });
+export async function confirmImWell(): Promise<boolean> {
+  if (!getCurrentUserId()) return false;
+  const ack = await sendHeartbeat({ screenUnlock: true, stepDelta: 25, battery: 82 });
+  return ack !== null;
 }

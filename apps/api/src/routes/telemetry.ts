@@ -92,6 +92,21 @@ export async function telemetryRoutes(app: FastifyInstance): Promise<void> {
         userId,
       });
 
+            const confirming = screenUnlocks.length > 0 || stepDelta > 0;
+      if (confirming) {
+        const open = await app.prisma.safetyIncident.findFirst({
+          where: { anchorId: userId, status: "OPEN" },
+          orderBy: { openedAt: "desc" },
+          select: { id: true },
+        });
+        if (open) {
+          await app.events.emit("incident.resolved", {
+            incidentId: open.id,
+            source: screenUnlocks.length > 0 ? "SCREEN_UNLOCK" : "STEP_DELTA",
+          });
+        }
+      }
+
       return { id: log.id, receivedAt: log.receivedAt.toISOString() };
     },
   );

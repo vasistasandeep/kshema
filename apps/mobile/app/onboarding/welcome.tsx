@@ -4,27 +4,40 @@ import { Body, PrimaryButton, Screen, Title } from "../../src/components/primiti
 import { createIdentity } from "../../src/domain/identity";
 import { identityDeps } from "../../src/runtime";
 import { useSessionStore } from "../../src/stores/hooks";
+import { connectLiveAsObserver } from "../../src/live-connect";
 
 /**
- * Welcome + identity bootstrap. Generating the RSA-2048 key pair (R1.4) and
- * seating the private key in the Secure_Enclave (R1.8) happens here; the
- * returned public-key registration payload is what the verify step sends to the
- * API (R1.5). We never place the private key in the store.
+ * Welcome + identity bootstrap (R1.4, R1.8). Also offers a "Connect to my
+ * Circle" action that logs into the live backend and opens the Observer
+ * dashboard with real data — the end-to-end device path.
  */
 export default function Welcome() {
   const router = useRouter();
   const markIdentityCreated = useSessionStore((s) => s.markIdentityCreated);
   const [busy, setBusy] = useState(false);
+  const [connecting, setConnecting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function begin() {
     setBusy(true);
     try {
-      // Generate identity now so the public key is ready for OTP verify.
       await createIdentity(identityDeps);
       markIdentityCreated();
       router.push("/onboarding/verify");
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function connectLive() {
+    setConnecting(true); setError(null);
+    try {
+      await connectLiveAsObserver();
+      router.replace("/(app)/observer");
+    } catch (e) {
+      setError(String((e as Error).message ?? e));
+    } finally {
+      setConnecting(false);
     }
   }
 
@@ -39,8 +52,14 @@ export default function Welcome() {
       <PrimaryButton
         label={busy ? "Preparing your key…" : "Get started"}
         onPress={begin}
-        disabled={busy}
+        disabled={busy || connecting}
       />
+      <PrimaryButton
+        label={connecting ? "Connecting…" : "Connect to my Circle (live)"}
+        onPress={connectLive}
+        disabled={busy || connecting}
+      />
+      {error ? <Body>{"Could not connect: " + error}</Body> : null}
     </Screen>
   );
 }

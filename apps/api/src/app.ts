@@ -28,6 +28,7 @@ import prismaPlugin, { type PrismaPluginOptions } from "./plugins/prisma.js";
 import eventsPlugin, { type EventEmitter } from "./plugins/events.js";
 import { healthRoutes } from "./routes/health.js";
 import { authRoutes } from "./routes/auth.js";
+import { devAuthRoutes } from "./routes/dev-auth.js";
 import { webAuthRoutes } from "./routes/web-auth.js";
 import {
   webDashboardRoutes,
@@ -331,6 +332,10 @@ export async function buildApp(
         ...(options.otpTtlMs !== undefined ? { otpTtlMs: options.otpTtlMs } : {}),
         ...(options.now !== undefined ? { now: options.now } : {}),
       });
+      // DEV-ONLY: passwordless login for local clients (non-production only).
+      if (env.NODE_ENV !== "production") {
+        await v1.register(devAuthRoutes);
+      }
       // Web portal auth (task 20.1, R28.1/R28.2): OTP over the WEB login
       // channel + optional WebAuthn passkeys. Shares the OTP challenge store
       // and SMS sender with the mobile auth routes; the RP id is derived from

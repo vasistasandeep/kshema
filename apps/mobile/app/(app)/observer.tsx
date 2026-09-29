@@ -1,24 +1,28 @@
+import { useState } from "react";
 import { Text, View } from "react-native";
-import { Body, Card, Screen, Title } from "../../src/components/primitives";
+import { Body, Card, PrimaryButton, Screen, Title } from "../../src/components/primitives";
 import {
   BRAND_LEXICON,
   toAnchorDashboardView,
   type AnchorDashboardView,
 } from "../../src/domain/ui-presentation";
 import { useDashboardStore } from "../../src/stores/hooks";
+import { refreshDashboard } from "../../src/live-connect";
 
 /**
- * Observer dashboard (R15).
- *
- * Renders per-Anchor well-being using the approved state colors — Muted Sage
- * Green for All Well (R15.2), Soft Amber for an escalating stage (R12.7), and a
- * neutral grey with a disclosure for Shield Paused (R20.6, R20.7). Every string
- * comes from the Brand_Lexicon (R15.4) and no location trace is shown (R15.5).
- * All presentation decisions live in the pure `ui-presentation` domain module
- * so they are verified under Node; this surface just paints them.
+ * Observer dashboard (R15). Renders per-Anchor well-being from the live store
+ * using the approved state colors, and offers a pull-to-refresh action that
+ * re-fetches the Observer dashboard from the API.
  */
 export default function ObserverDashboard() {
   const anchors = useDashboardStore((s) => s.anchors);
+  const lastRefreshedAt = useDashboardStore((s) => s.lastRefreshedAt);
+  const [busy, setBusy] = useState(false);
+
+  async function onRefresh() {
+    setBusy(true);
+    try { await refreshDashboard(); } catch { /* best-effort */ } finally { setBusy(false); }
+  }
 
   return (
     <Screen>
@@ -30,6 +34,10 @@ export default function ObserverDashboard() {
           .map(toAnchorDashboardView)
           .map((view) => <AnchorRow key={view.anchorId} view={view} />)
       )}
+      <PrimaryButton label={busy ? "Refreshing…" : "Refresh"} onPress={onRefresh} disabled={busy} />
+      {lastRefreshedAt ? (
+        <Text className="text-xs text-typography/50">Updated {new Date(lastRefreshedAt).toLocaleTimeString()}</Text>
+      ) : null}
     </Screen>
   );
 }

@@ -52,7 +52,8 @@
       },
       "eas": {
         "projectId": "54d83b1b-a3a4-423e-a1c9-28d8399816d5"
-      }
+      },
+      "apiBaseUrl": "http://10.0.2.2:3001"
     }
   }
 }

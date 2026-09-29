@@ -3,21 +3,23 @@ import type {
   Invoice, PanchangaCard, Anchor,
 } from "../types";
 import * as mock from "../mock/data";
+import { getLiveDashboard, liveEnabled } from "./live";
 
 /**
- * Data-access layer. Every UI component reads through these functions. When
- * KSHEMA_API_BASE_URL is set (live mode) they call the Fastify API; otherwise
- * they resolve rich mock data. This keeps the UI identical across modes and
- * makes the app scalable to the real backend without component changes.
+ * Data-access layer. Every UI component reads through these functions. The
+ * observer dashboard uses the live Fastify API when configured
+ * (KSHEMA_API_BASE_URL + KSHEMA_DEMO_OBSERVER_ID) and otherwise resolves rich
+ * mock data. Detail surfaces that the API does not yet expose (vitality history,
+ * policy, billing) use mock data today and are wired to their endpoints as they
+ * come online. The UI is identical across modes.
  */
 
 const API = process.env.KSHEMA_API_BASE_URL || "";
-const DEMO = !API || process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 async function apiGet<T>(path: string, fallback: T): Promise<T> {
-  if (DEMO) return fallback;
+  if (!API) return fallback;
   try {
-    const res = await fetch(`${API}${path}`, { cache: "no-store" });
+    const res = await fetch(API + path, { cache: "no-store" });
     if (!res.ok) return fallback;
     return (await res.json()) as T;
   } catch {
@@ -26,7 +28,9 @@ async function apiGet<T>(path: string, fallback: T): Promise<T> {
 }
 
 export async function getDashboard(): Promise<DashboardSummary> {
-  return apiGet("/api/v1/observer/dashboard", mock.dashboardSummary);
+  const live = await getLiveDashboard();
+  if (live) return live;
+  return mock.dashboardSummary;
 }
 
 export async function getAnchor(id: string): Promise<Anchor | undefined> {
@@ -35,23 +39,23 @@ export async function getAnchor(id: string): Promise<Anchor | undefined> {
 }
 
 export async function getVitality(anchorId: string): Promise<VitalityDay[]> {
-  return apiGet(`/api/v1/web/vitality/rhythm?anchorId=${anchorId}&days=30`, mock.vitalityHistory(anchorId));
+  return mock.vitalityHistory(anchorId);
 }
 
 export async function getSentinelPolicy(): Promise<SentinelPolicy> {
-  return apiGet("/api/v1/observer/sentinel-policy", mock.sentinelPolicy);
+  return mock.sentinelPolicy;
 }
 
 export async function getHyperlocal(): Promise<HyperlocalProfile> {
-  return apiGet("/api/v1/observer/hyperlocal", mock.hyperlocalProfile);
+  return mock.hyperlocalProfile;
 }
 
 export async function getInvoices(): Promise<Invoice[]> {
-  return apiGet("/api/v1/web/billing/invoices", mock.invoices);
+  return mock.invoices;
 }
 
 export async function getPanchanga(): Promise<PanchangaCard> {
-  return apiGet("/api/v1/panchanga", mock.panchanga);
+  return mock.panchanga;
 }
 
-export const isDemoMode = DEMO;
+export const isDemoMode = !liveEnabled();

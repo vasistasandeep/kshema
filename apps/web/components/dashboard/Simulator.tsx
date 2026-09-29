@@ -18,13 +18,13 @@ export function Simulator() {
   const [running, setRunning] = useState(false);
   const [compressed, setCompressed] = useState(true);
   const [log, setLog] = useState<LogItem[]>([]);
+  const [live, setLive] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
 
   const add = (msg: string, tone: LogItem["tone"] = "info") =>
     setLog((l) => [{ t: new Date().toLocaleTimeString(), msg, tone }, ...l].slice(0, 40));
 
   const stepMs = compressed ? 2500 : 20 * 60 * 1000;
-
   useEffect(() => () => clearTimeout(timer.current), []);
 
   function advance(to: Stage) {
@@ -36,9 +36,25 @@ export function Simulator() {
     if (to === 4) { add("Emergency access token minted · responder SMS sent", "warn"); setRunning(false); }
   }
 
+  async function driveLiveIncident() {
+    add("Opening a REAL incident in the database via the Sentinel worker…", "warn");
+    try {
+      const res = await fetch("/api/incidents/open", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({}) });
+      const j = await res.json();
+      if (res.ok) {
+        add(`Worker enqueued open job ${j.jobId}. The Observer dashboard will now show ESCALATING — open it in another tab.`, "good");
+      } else {
+        add(`Could not open live incident: ${j.error ?? res.status}`, "warn");
+      }
+    } catch (e) {
+      add(`Live incident error: ${String(e)}`, "warn");
+    }
+  }
+
   function start() {
     setLog([]); setRunning(true); setStage(0);
     add("Grace deadline passed without a confirmed routine", "warn");
+    if (live) void driveLiveIncident();
     let cur: Stage = 0;
     const tick = () => {
       cur = (cur + 1) as Stage;
@@ -51,6 +67,10 @@ export function Simulator() {
   function resolve(source: string) {
     clearTimeout(timer.current); setRunning(false); setStage(0);
     add(`Auto-resolved by ${source}. Escalation halted, Circle reassured.`, "good");
+    if (live) {
+      void fetch("/api/incidents/resolve", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ source: "OBSERVER_OVERRIDE" }) })
+        .then((r) => r.json()).then((j) => add(`DB: resolved ${j.resolved ?? 0} open incident(s).`, "good")).catch(() => {});
+    }
   }
 
   return (
@@ -61,10 +81,10 @@ export function Simulator() {
             <h3 className="font-semibold">Escalation simulator</h3>
             <p className="text-sm text-typography/60">Exercise the four-stage state machine safely.</p>
           </div>
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={compressed} onChange={(e) => setCompressed(e.target.checked)} />
-            Time-warp (2.5s per stage)
-          </label>
+          <div className="flex flex-col gap-1 text-sm">
+            <label className="flex items-center gap-2"><input type="checkbox" checked={compressed} onChange={(e) => setCompressed(e.target.checked)} />Time-warp (2.5s per stage)</label>
+            <label className="flex items-center gap-2"><input type="checkbox" checked={live} onChange={(e) => setLive(e.target.checked)} />Drive a real DB incident (worker)</label>
+          </div>
         </div>
 
         <div className="mt-5 flex flex-col gap-2">
@@ -88,6 +108,7 @@ export function Simulator() {
           <button className="btn-outline" onClick={() => resolve("Ghost Signal (TV woke)")} disabled={!running && stage === 0}>Ghost Signal</button>
           <button className="btn-ghost text-escalating" onClick={() => resolve("Observer override")} disabled={!running && stage === 0}>Mark safe</button>
         </div>
+        {live && <p className="mt-3 text-xs text-celebration">Live mode on: “Trigger” opens a real incident in Postgres via the worker. Watch the dashboard flip to ESCALATING.</p>}
       </CardBody></Card>
 
       <Card><CardBody>

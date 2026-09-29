@@ -248,6 +248,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@kshema/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       '@kshema/types':
         specifier: workspace:*
         version: link:../../packages/types

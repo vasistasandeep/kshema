@@ -8,7 +8,7 @@ export function Topbar({ title, subtitle }: { title: string; subtitle?: string }
         {subtitle && <p className="text-sm text-typography/60">{subtitle}</p>}
       </div>
       <div className="flex items-center gap-2">
-        {isDemoMode && <span className="chip bg-celebration/15 text-celebration">Demo data</span>}
+        {isDemoMode() && <span className="chip bg-celebration/15 text-celebration">Demo data</span>}
         <span className="chip bg-healthy/10 text-healthy"><span className="h-1.5 w-1.5 rounded-full bg-healthy" />Live</span>
       </div>
     </div>

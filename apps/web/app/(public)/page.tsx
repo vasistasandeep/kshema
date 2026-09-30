@@ -72,6 +72,26 @@ export default function Landing() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <div className="card card-pad">
+          <div className="mb-6 text-center">
+            <h2 className="text-2xl font-semibold">Explore the live demo</h2>
+            <p className="mt-2 text-typography/65">Every surface, wired to the live backend. Amma is the seeded Anchor.</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <DemoLink href="/dashboard" title="Observer dashboard" body="Live well-being of every Anchor in the Circle." />
+            <DemoLink href="/anchor/cmud5ygks0000pvev3t22w2bc" title="Anchor home (Amma)" body="Sanctuary view with the ‘I’m well’ heartbeat and Sparsh." />
+            <DemoLink href="/dashboard/anchors/cmud5ygks0000pvev3t22w2bc" title="Anchor detail + Flight Recorder" body="Incident timeline and the gated Encrypted Black Box." />
+            <DemoLink href="/dashboard/people" title="Members & permissions" body="Add Anchors/Observers, set black-box access." />
+            <DemoLink href="/dashboard/simulate" title="Escalation simulator" body="Drive the four-stage safety pipeline safely." />
+            <DemoLink href="/dashboard/vitality" title="Vitality rhythm" body="30-day routine-confirmation history." />
+            <DemoLink href="/dashboard/config" title="Sentinel policy" body="Tune protection windows and persona modes." />
+            <DemoLink href="/dashboard/billing" title="Billing & plan" body="Subscription tier and invoices." />
+            <DemoLink href="/onboarding" title="Onboarding" body="Create an identity and join a Circle." />
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t border-black/5">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-typography/50 sm:flex-row">
           <Logo mark={false} />
@@ -79,5 +99,17 @@ export default function Landing() {
         </div>
       </footer>
     </main>
+  );
+}
+
+function DemoLink({ href, title, body }: { href: string; title: string; body: string }) {
+  return (
+    <Link href={href} className="group rounded-2xl border border-black/5 bg-sandalwood-cream p-5 transition-all hover:border-primary-action/40 hover:shadow-sm">
+      <div className="flex items-center justify-between">
+        <h4 className="font-semibold">{title}</h4>
+        <span className="text-primary-action opacity-0 transition-opacity group-hover:opacity-100">→</span>
+      </div>
+      <p className="mt-1 text-sm text-typography/65">{body}</p>
+    </Link>
   );
 }

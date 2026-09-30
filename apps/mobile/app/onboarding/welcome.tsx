@@ -4,7 +4,7 @@ import { Body, PrimaryButton, Screen, Title } from "../../src/components/primiti
 import { createIdentity } from "../../src/domain/identity";
 import { identityDeps } from "../../src/runtime";
 import { useSessionStore } from "../../src/stores/hooks";
-import { connectLiveAsObserver } from "../../src/live-connect";
+import { connectLiveAsAnchor, connectLiveAsObserver } from "../../src/live-connect";
 
 /**
  * Welcome + identity bootstrap (R1.4, R1.8). Also offers a "Connect to my
@@ -41,6 +41,18 @@ export default function Welcome() {
     }
   }
 
+  async function connectAnchor() {
+    setConnecting(true); setError(null);
+    try {
+      await connectLiveAsAnchor();
+      router.replace("/(app)/anchor");
+    } catch (e) {
+      setError(String((e as Error).message ?? e));
+    } finally {
+      setConnecting(false);
+    }
+  }
+
   return (
     <Screen>
       <Title>Welcome to Kshema</Title>
@@ -57,6 +69,11 @@ export default function Welcome() {
       <PrimaryButton
         label={connecting ? "Connecting…" : "Connect to my Circle (live)"}
         onPress={connectLive}
+        disabled={busy || connecting}
+      />
+      <PrimaryButton
+        label={connecting ? "Connecting…" : "Enter as Anchor (live)"}
+        onPress={connectAnchor}
         disabled={busy || connecting}
       />
       {error ? <Body>{"Could not connect: " + error}</Body> : null}

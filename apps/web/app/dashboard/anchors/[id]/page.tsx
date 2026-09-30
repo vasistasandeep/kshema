@@ -8,6 +8,7 @@ import { Sparkline } from "@/components/ui/Sparkline";
 import { wellbeingVisual, stageLabel, stageIndex, relativeTime } from "@/lib/wellbeing";
 import { cn } from "@/lib/cn";
 import { AnchorActions } from "@/components/dashboard/AnchorActions";
+import { BlackBoxCard } from "@/components/dashboard/BlackBoxCard";
 
 export default async function AnchorDetail({ params }: { params: { id: string } }) {
   const a = await getAnchor(params.id);
@@ -75,17 +76,7 @@ export default async function AnchorDetail({ params }: { params: { id: string } 
         )}
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Card>
-            <CardBody>
-              <div className="label">Flight Recorder</div>
-              <p className="mt-2 text-sm text-typography/65">
-                Encrypted black box is {incident && stageIndex[incident.stage] >= 4 ? "released for emergency triage" : "sealed"}. Only you can decrypt it, and only during a real emergency — our servers never can.
-              </p>
-              <button className={cn("btn mt-3", incident && stageIndex[incident.stage] >= 4 ? "btn-primary" : "btn-outline opacity-60")} disabled={!(incident && stageIndex[incident.stage] >= 4)}>
-                {incident && stageIndex[incident.stage] >= 4 ? "Decrypt in browser" : "Sealed 🔒"}
-              </button>
-            </CardBody>
-          </Card>
+          <BlackBoxCard anchorId={a.id} released={Boolean(incident && stageIndex[incident.stage] >= 4)} />
           <Card>
             <CardBody>
               <div className="label">Persona modes</div>

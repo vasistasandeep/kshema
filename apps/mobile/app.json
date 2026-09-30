@@ -37,7 +37,8 @@
       "permissions": [
         "ACTIVITY_RECOGNITION",
         "FOREGROUND_SERVICE"
-      ]
+      ],
+      "usesCleartextTraffic": true
     },
     "plugins": [
       "expo-router",
@@ -53,7 +54,7 @@
       "eas": {
         "projectId": "54d83b1b-a3a4-423e-a1c9-28d8399816d5"
       },
-      "apiBaseUrl": "http://10.0.2.2:3001"
+      "apiBaseUrl": "http://localhost:3001"
     }
   }
 }

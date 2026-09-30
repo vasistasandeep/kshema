@@ -27,6 +27,7 @@ export default function AppLayout() {
         tabBarInactiveTintColor: semanticColors.typography,
       }}
     >
+      <Tabs.Screen name="index" options={{ href: null }} />
       <Tabs.Screen
         name="anchor"
         options={{ title: "Home", href: anchor ? "/(app)/anchor" : null }}

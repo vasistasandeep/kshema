@@ -38,7 +38,7 @@ export default function RootLayout() {
       hasCircle,
     });
     const current = `/${segments.join("/")}`;
-    const inApp = segments[0] === "(app)";
+    const inApp = segments[0] === "(app)" || (segments[0] as string) === "anchor-detail";
     const wantsApp = target === "/(app)";
     // Only redirect when we are clearly on the wrong side of the funnel.
     if (wantsApp && !inApp) {

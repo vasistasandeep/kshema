@@ -73,7 +73,7 @@
  * `{ type: "BLACK_BOX_ACCESS", observerId, boxId, at }` to the incident's
  * `auditTrail` (an ordered JSON array), preserving the existing entries.
  */
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyReply } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import {
@@ -153,11 +153,122 @@ export async function blackboxRoutes(app: FastifyInstance): Promise<void> {
     },
   );
 
-  // POST /incidents/:id/blackbox — authorized fetch of the released
-  // Encrypted_Black_Box ciphertext for the requesting Observer. Gated on
-  // `canAccessBlackBox` AND box release (Stage-4 or Shadow_SOS); returns
-  // ciphertext ONLY and appends an access event to the incident audit trail.
-  // No decryption anywhere (R8.7, R8.8, R9.3, R19.6, R8.6/R19.3).
+  // Shared gate: serve the released Encrypted_Black_Box for a resolved incident
+  // to the requesting Observer, or reply with the exact 403/404 the gate decides.
+  // Used by both the incident-scoped and anchor-scoped fetch routes so the
+  // access-control logic lives in one place (R8.7, R8.8, R9.3, R19.6).
+  async function serveBlackBox(
+    incidentId: string,
+    observerId: string,
+    reply: FastifyReply,
+  ) {
+    const forbidden = (message: string) =>
+      reply.code(403).send({ error: "Forbidden" as const, message });
+    const notFound = (message: string) =>
+      reply.code(404).send({ error: "Not Found" as const, message });
+
+    // 1) The incident must exist. Unknown id -> 404 (no data to release).
+    const incident = await app.prisma.safetyIncident.findUnique({
+      where: { id: incidentId },
+      select: {
+        id: true,
+        circleId: true,
+        anchorId: true,
+        stage: true,
+        status: true,
+        auditTrail: true,
+      },
+    });
+    if (!incident) {
+      return notFound("No such incident.");
+    }
+
+    // 2) The caller must be a CircleMember of the incident's circle who holds
+    //    the Encrypted_Black_Box access permission (R8.8). A non-member, or a
+    //    member without canAccessBlackBox, is denied identically (403).
+    const membership = await app.prisma.circleMember.findFirst({
+      where: { circleId: incident.circleId, userId: observerId },
+      select: { canAccessBlackBox: true },
+    });
+    if (!membership || !membership.canAccessBlackBox) {
+      return forbidden(
+        "You are not authorized to access the black box for this incident.",
+      );
+    }
+
+    // 3) The black box is RELEASED only once the incident reaches Stage-4
+    //    Hyperlocal_Dispatch or is handed off to Shadow_SOS (R8.7, R8.8, R9.3).
+    const released =
+      incident.stage === RELEASED_STAGE || incident.status === RELEASED_STATUS;
+    if (!released) {
+      return forbidden(
+        "The black box for this incident has not been released.",
+      );
+    }
+
+    // 4) Locate the released box for this incident (by circle + anchor).
+    const box = await app.prisma.encryptedBlackBox.findFirst({
+      where: {
+        circleId: incident.circleId,
+        anchorId: incident.anchorId,
+        released: true,
+      },
+      orderBy: [{ capturedRangeEnd: "desc" }, { createdAt: "desc" }],
+      select: {
+        id: true,
+        encryptedPayload: true,
+        iv: true,
+        authTag: true,
+        capturedRangeStart: true,
+        capturedRangeEnd: true,
+        recipientKeys: {
+          where: { observerId },
+          select: { wrappedKey: true },
+        },
+      },
+    });
+    if (!box) {
+      return notFound("No released black box is available for this incident.");
+    }
+
+    // 5) The box must carry a key fan-out-wrapped to THIS Observer.
+    const recipientKey = box.recipientKeys[0];
+    if (!recipientKey) {
+      return forbidden(
+        "No black-box key is wrapped for you on this incident.",
+      );
+    }
+
+    // 6) Record the access in the incident audit trail (R19.6).
+    const existingTrail = Array.isArray(incident.auditTrail)
+      ? incident.auditTrail
+      : [];
+    const accessEvent = {
+      type: "BLACK_BOX_ACCESS",
+      observerId,
+      boxId: box.id,
+      at: new Date().toISOString(),
+    };
+    await app.prisma.safetyIncident.update({
+      where: { id: incident.id },
+      data: { auditTrail: [...existingTrail, accessEvent] },
+    });
+
+    // 7) Return ciphertext ONLY (R8.6, R19.3).
+    return reply.code(200).send({
+      boxId: box.id,
+      encryptedPayload: box.encryptedPayload.toString("base64"),
+      iv: box.iv.toString("base64"),
+      authTag: box.authTag.toString("base64"),
+      wrappedKey: recipientKey.wrappedKey.toString("base64"),
+      capturedRange: {
+        start: box.capturedRangeStart.toISOString(),
+        end: box.capturedRangeEnd.toISOString(),
+      },
+    });
+  }
+
+  // POST /incidents/:id/blackbox — authorized fetch by incident id.
   typed.post(
     "/incidents/:id/blackbox",
     {
@@ -172,122 +283,58 @@ export async function blackboxRoutes(app: FastifyInstance): Promise<void> {
       },
     },
     async (request, reply) => {
-      const { id: incidentId } = request.params;
+      return serveBlackBox(request.params.id, request.user.sub, reply);
+    },
+  );
+
+  // POST /anchors/:anchorId/blackbox — authorized fetch by anchor id. Resolves
+  // the anchor's most recent OPEN incident within a circle the CALLER belongs
+  // to, then applies the identical gate. Lets clients that only know the anchor
+  // (the Observer dashboard exposes no incident id) reach the same release path.
+  typed.post(
+    "/anchors/:anchorId/blackbox",
+    {
+      onRequest: [app.authenticate],
+      schema: {
+        params: z.object({ anchorId: z.string().min(1) }).strict(),
+        response: {
+          200: BlackBoxCiphertextSchema,
+          403: BlackBoxForbiddenSchema,
+          404: BlackBoxNotFoundSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const { anchorId } = request.params;
       const observerId = request.user.sub;
 
-      const forbidden = (message: string) =>
-        reply.code(403).send({ error: "Forbidden" as const, message });
-      const notFound = (message: string) =>
-        reply.code(404).send({ error: "Not Found" as const, message });
+      // Circles the caller belongs to; the incident must be in one of them so a
+      // caller cannot probe incidents in circles they are not part of.
+      const memberships = await app.prisma.circleMember.findMany({
+        where: { userId: observerId },
+        select: { circleId: true },
+      });
+      const circleIds = memberships.map((m) => m.circleId);
+      if (circleIds.length === 0) {
+        return reply.code(404).send({
+          error: "Not Found" as const,
+          message: "No active incident for this anchor.",
+        });
+      }
 
-      // 1) The incident must exist. Unknown id -> 404 (no data to release).
-      const incident = await app.prisma.safetyIncident.findUnique({
-        where: { id: incidentId },
-        select: {
-          id: true,
-          circleId: true,
-          anchorId: true,
-          stage: true,
-          status: true,
-          auditTrail: true,
-        },
+      const incident = await app.prisma.safetyIncident.findFirst({
+        where: { anchorId, status: "OPEN", circleId: { in: circleIds } },
+        orderBy: { openedAt: "desc" },
+        select: { id: true },
       });
       if (!incident) {
-        return notFound("No such incident.");
+        return reply.code(404).send({
+          error: "Not Found" as const,
+          message: "No active incident for this anchor.",
+        });
       }
 
-      // 2) The caller must be a CircleMember of the incident's circle who holds
-      //    the Encrypted_Black_Box access permission (R8.8). A non-member, or a
-      //    member without `canAccessBlackBox`, is denied identically (403) so we
-      //    never leak whether the caller is in the circle at all.
-      const membership = await app.prisma.circleMember.findFirst({
-        where: { circleId: incident.circleId, userId: observerId },
-        select: { canAccessBlackBox: true },
-      });
-      if (!membership || !membership.canAccessBlackBox) {
-        return forbidden(
-          "You are not authorized to access the black box for this incident.",
-        );
-      }
-
-      // 3) The black box is RELEASED only once the incident reaches Stage-4
-      //    Hyperlocal_Dispatch or is handed off to Shadow_SOS (R8.7, R8.8,
-      //    R9.3). Otherwise the gate stays closed regardless of permission.
-      const released =
-        incident.stage === RELEASED_STAGE || incident.status === RELEASED_STATUS;
-      if (!released) {
-        return forbidden(
-          "The black box for this incident has not been released.",
-        );
-      }
-
-      // 4) Locate the released box for this incident. Association is by
-      //    circle + anchor (see module header), scoped to released boxes, taking
-      //    the most recently captured one.
-      const box = await app.prisma.encryptedBlackBox.findFirst({
-        where: {
-          circleId: incident.circleId,
-          anchorId: incident.anchorId,
-          released: true,
-        },
-        orderBy: [{ capturedRangeEnd: "desc" }, { createdAt: "desc" }],
-        select: {
-          id: true,
-          encryptedPayload: true,
-          iv: true,
-          authTag: true,
-          capturedRangeStart: true,
-          capturedRangeEnd: true,
-          recipientKeys: {
-            where: { observerId },
-            select: { wrappedKey: true },
-          },
-        },
-      });
-      if (!box) {
-        return notFound("No released black box is available for this incident.");
-      }
-
-      // 5) The box must carry a key fan-out-wrapped to THIS Observer. Absent one,
-      //    the caller cannot decrypt it and is denied (403) — the server holds no
-      //    private key and never unwraps or substitutes another Observer's key.
-      const recipientKey = box.recipientKeys[0];
-      if (!recipientKey) {
-        return forbidden(
-          "No black-box key is wrapped for you on this incident.",
-        );
-      }
-
-      // 6) Record the access in the incident audit trail (R19.6). Preserve the
-      //    existing ordered entries and append the access event.
-      const existingTrail = Array.isArray(incident.auditTrail)
-        ? incident.auditTrail
-        : [];
-      const accessEvent = {
-        type: "BLACK_BOX_ACCESS",
-        observerId,
-        boxId: box.id,
-        at: new Date().toISOString(),
-      };
-      await app.prisma.safetyIncident.update({
-        where: { id: incident.id },
-        data: { auditTrail: [...existingTrail, accessEvent] },
-      });
-
-      // 7) Return ciphertext ONLY (R8.6, R19.3) — the shared encrypted payload
-      //    plus the single wrapped key for this Observer, base64-encoded for
-      //    transport. Decryption happens on the Observer's device (R8.9, R28.3).
-      return {
-        boxId: box.id,
-        encryptedPayload: box.encryptedPayload.toString("base64"),
-        iv: box.iv.toString("base64"),
-        authTag: box.authTag.toString("base64"),
-        wrappedKey: recipientKey.wrappedKey.toString("base64"),
-        capturedRange: {
-          start: box.capturedRangeStart.toISOString(),
-          end: box.capturedRangeEnd.toISOString(),
-        },
-      };
+      return serveBlackBox(incident.id, observerId, reply);
     },
   );
 }

@@ -90,3 +90,42 @@ export async function sendHeartbeat(input?: { screenUnlock?: boolean; stepDelta?
     return null;
   }
 }
+
+export interface BlackBoxCiphertext {
+  boxId: string;
+  encryptedPayload: string;
+  iv: string;
+  authTag: string;
+  wrappedKey: string;
+  capturedRange: { start: string; end: string };
+}
+
+export interface BlackBoxDenied { error: string; message: string; }
+
+export type BlackBoxResult =
+  | { ok: true; box: BlackBoxCiphertext }
+  | { ok: false; status: number; message: string };
+
+/**
+ * Gated Encrypted_Black_Box fetch by anchor (R8.7/8.8/9.3/19.6). Calls the
+ * anchor-scoped API route, which resolves the anchor's OPEN incident within a
+ * circle the caller belongs to and applies the release gate. Returns the
+ * ciphertext on grant (200) or the gate's reason on 403/404. Server-blind: the
+ * client receives ciphertext only and never a plaintext or private key.
+ */
+export async function fetchBlackBox(anchorId: string): Promise<BlackBoxResult> {
+  const res = await fetch(getApiBaseUrl() + "/api/v1/anchors/" + encodeURIComponent(anchorId) + "/blackbox", {
+    method: "POST",
+    headers: accessToken ? { authorization: "Bearer " + accessToken } : {},
+  });
+  if (res.ok) {
+    const box = (await res.json()) as BlackBoxCiphertext;
+    return { ok: true, box };
+  }
+  let message = "Request failed (" + res.status + ")";
+  try {
+    const j = (await res.json()) as BlackBoxDenied;
+    if (j && (j.message || j.error)) message = j.message || j.error;
+  } catch { /* keep default */ }
+  return { ok: false, status: res.status, message };
+}

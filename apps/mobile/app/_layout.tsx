@@ -67,6 +67,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="onboarding" />
         <Stack.Screen name="(app)" />
+        <Stack.Screen name="anchor-detail/[id]" />
       </Stack>
     </SafeAreaProvider>
   );

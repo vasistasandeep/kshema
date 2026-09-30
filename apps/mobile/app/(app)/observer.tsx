@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { Body, Card, PrimaryButton, Screen, Title } from "../../src/components/primitives";
 import {
   BRAND_LEXICON,
@@ -18,6 +19,7 @@ export default function ObserverDashboard() {
   const anchors = useDashboardStore((s) => s.anchors);
   const lastRefreshedAt = useDashboardStore((s) => s.lastRefreshedAt);
   const [busy, setBusy] = useState(false);
+  const router = useRouter();
 
   async function onRefresh() {
     setBusy(true);
@@ -32,7 +34,7 @@ export default function ObserverDashboard() {
       ) : (
         anchors
           .map(toAnchorDashboardView)
-          .map((view) => <AnchorRow key={view.anchorId} view={view} />)
+          .map((view) => <AnchorRow key={view.anchorId} view={view} onPress={() => router.push(("/anchor-detail/" + encodeURIComponent(view.anchorId) + "?name=" + encodeURIComponent(view.preferredName)) as never)} />)
       )}
       <PrimaryButton label={busy ? "Refreshing…" : "Refresh"} onPress={onRefresh} disabled={busy} />
       {lastRefreshedAt ? (
@@ -42,8 +44,9 @@ export default function ObserverDashboard() {
   );
 }
 
-function AnchorRow({ view }: { view: AnchorDashboardView }) {
+function AnchorRow({ view, onPress }: { view: AnchorDashboardView; onPress: () => void }) {
   return (
+    <Pressable onPress={onPress} accessibilityRole="button">
     <Card>
       <View className="flex-row items-center gap-3">
         <View
@@ -63,5 +66,6 @@ function AnchorRow({ view }: { view: AnchorDashboardView }) {
         </Text>
       ) : null}
     </Card>
+    </Pressable>
   );
 }
